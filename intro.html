@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprises!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colors sampled from the image */
+            --bg-grad-tl: #AEC6F4;
+            --bg-grad-center: #F8B0C4;
+            --bg-grad-br: #FAD9A1;
+            --text-grad-start: #E94057;
+            --text-grad-end: #8A2387;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* The complex background with layered gradients and bokeh */
+            background-color: var(--bg-grad-center);
+            background-image:
+                /* Bokeh/Dust Motes Layer */
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 1px, transparent 1px),
+                radial-gradient(circle at 80% 30%, rgba(255,255,255,0.1) 2px, transparent 2px),
+                radial-gradient(circle at 50% 15%, rgba(255,255,255,0.1) 1px, transparent 1px),
+                radial-gradient(circle at 90% 95%, rgba(255,255,255,0.1) 2px, transparent 2px),
+                /* Main Color Pools */
+                radial-gradient(circle at 10% 10%, var(--bg-grad-tl) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, var(--bg-grad-br) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, var(--bg-grad-center) 0%, transparent 60%);
+            color: white;
+        }
+
+        .splash-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+        }
+
+        .main-instruction {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            /* Gradient Text Effect */
+            background: linear-gradient(to right, var(--text-grad-start), var(--text-grad-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .character-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        /* The soft spotlight glow behind Anya */
+        .character-container::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(255, 192, 203, 0.4) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .character-image {
+            position: relative;
+            z-index: 1;
+            /* This ensures the image auto-resizes correctly */
+            width: 70vw;
+            max-width: 300px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .character-image:hover {
+            transform: scale(1.05);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .social-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: background 0.2s ease;
+        }
+        
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .social-link svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .secondary-instruction {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .secondary-instruction .emoji {
+            display: inline-block;
+            transform: translateY(2px);
+            margin-left: 5px;
+            filter: drop-shadow(0 0 5px rgba(255, 223, 186, 0.7));
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="splash-screen">
+        <h1 class="main-instruction">Tap her head to start ✨</h1>
+
+        <div class="character-container">
+            <img src="/images/anya.png" alt="Character to tap" class="character-image" id="start-button">
+        </div>
+
+        <div class="social-links">
+            <a href="#" class="social-link" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.81C10.44 7.31 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 12 2.04z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="X (Twitter)">
+                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg>
+            </a>
+        </div>
+
+        <p class="secondary-instruction">Character ke head pe tap kar <span class="emoji">💫</span></p>
+    </div>
+
+    <script>
+        // Placeholder for the transition logic.
+        // When the user clicks the character, this is where you would
+        // add code to fade this screen out and show the envelope screen.
+        document.getElementById('start-button').addEventListener('click', () => {
+            console.log('Start button clicked!');
+            alert('Starting the surprise!');
+            // Example: window.location.href = 'envelopes.html';
+        });
+    </script>
+
+</body>
+</html>

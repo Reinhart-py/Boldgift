@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=640">
+    <title>Birthday Surprises!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-grad-start: #D1C4E9;
+            --bg-grad-end: #FFCDD2;
+            --sparkle-color: rgba(255, 239, 186, 0.6);
+            --window-bg: rgba(255, 255, 255, 0.65);
+            --chrome-bg: rgba(248, 246, 249, 0.70);
+            --chrome-border: rgba(0, 0, 0, 0.08);
+            --address-bar-bg: #FFFFFF;
+            --address-bar-border: rgba(0, 0, 0, 0.1);
+            --text-primary: #3D3A4F;
+            --text-secondary: #7A768F;
+            --icon-color: #5F5C6D;
+            --traffic-light-color: #D5D5D5;
+            --button-grad-start: #FFB8B8;
+            --button-grad-end: #FFA3A3;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: var(--bg-grad-end);
+            background-image:
+                radial-gradient(circle at 15% 25%, var(--sparkle-color) 1px, transparent 15px),
+                radial-gradient(circle at 90% 10%, var(--sparkle-color) 2px, transparent 20px),
+                radial-gradient(circle at 85% 88%, var(--sparkle-color) 3px, transparent 30px),
+                linear-gradient(135deg, var(--bg-grad-start), var(--bg-grad-end));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .page-container {
+            position: relative;
+            width: 412px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .peeking-anya {
+            position: absolute; top: -20px; left: 50%;
+            transform: translateX(-50%); width: 55%;
+            z-index: 1; pointer-events: none;
+        }
+        .peeking-anya img { width: 100%; display: block; }
+
+        .browser-window {
+            position: relative; width: 100%;
+            background-color: var(--window-bg);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border-radius: 12px;
+            box-shadow: 0px 20px 60px rgba(45, 27, 51, 0.2);
+            z-index: 5; overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .browser-chrome {
+            height: 48px; display: flex; align-items: center; padding: 0 14px;
+            background-color: var(--chrome-bg);
+            box-shadow: inset 0 -1px 0 0 var(--chrome-border);
+        }
+        
+        .traffic-lights { display: flex; gap: 6px; margin-right: 10px; }
+        .traffic-lights span { width: 10px; height: 10px; border-radius: 50%; background-color: var(--traffic-light-color); }
+        .chrome-nav-icons { display: flex; align-items: center; gap: 16px; }
+        .icon { width: 18px; height: 18px; background-color: var(--icon-color); }
+        .address-bar-container { flex-grow: 1; height: 30px; display: flex; align-items: center; padding: 0 10px; margin: 0 10px; background-color: var(--address-bar-bg); border-radius: 6px; box-shadow: inset 0 0 0 1px var(--address-bar-border); }
+        .address-bar-container .icon { width: 16px; height: 16px; }
+        .star-icon-wrapper { margin-left: auto; }
+        .chrome-menu-icons { display: flex; align-items: center; gap: 14px; }
+        .icon-refresh, .icon-home, .icon-star, .icon-square-in-square, .icon-menu { -webkit-mask-size: contain; mask-size: contain; -webkit-mask-position: center; mask-position: center; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+        .icon-refresh { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 4v6h-6'/%3E%3Cpath d='M20.49 15a9 9 0 1 1-2.12-9.36L23 10'/%3E%3C/svg%3E"); }
+        .icon-home { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3Cpolyline points='9 22 9 12 15 12 15 22'/%3E%3C/svg%3E"); }
+        .icon-star { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E"); }
+        .icon-square-in-square { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='7' y='7' width='13' height='13' rx='2' ry='2'/%3E%3Cpath d='M3 13V5a2 2 0 0 1 2-2h8'/%3E%3C/svg%3E"); }
+        .icon-menu { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='3' y1='12' x2='21' y2='12'/%3E%3Cline x1='3' y1='6' x2='21' y2='6'/%3E%3Cline x1='3' y1='18' x2='21' y2='18'/%3E%3C/svg%3E"); }
+        
+        .browser-content { padding: 25px; position: relative; }
+        .browser-content::before {
+            content: ''; position: absolute; top: 52%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%; height: auto; padding-bottom: 60%;
+            background-image: url('/images/anya.png');
+            background-size: contain; background-position: center; background-repeat: no-repeat;
+            opacity: 0.05;
+        }
+        .content-wrapper { position: relative; z-index: 1; }
+        .main-heading { font-size: 2.2rem; font-weight: 800; color: var(--text-primary); text-align: center; line-height: 1.1; }
+        .sub-heading { font-size: 1rem; font-weight: 400; color: var(--text-secondary); text-align: center; margin-top: 6px; margin-bottom: 25px; }
+        
+        .envelope-slider-container { overflow: hidden; position: relative; }
+        .envelope-slider-wrapper { 
+            display: flex; 
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* PERFORMANCE: Hint to browser to prepare for smooth sliding */
+            will-change: transform;
+        }
+        .envelope-page { flex: 0 0 100%; width: 100%; }
+        .envelope-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        
+        .envelope-container { position: relative; cursor: pointer; }
+        .envelope-container .envelope img { 
+            width: 100%; display: block; height: auto; 
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            /* PERFORMANCE: Hint to browser for smooth open animation */
+            will-change: transform;
+        }
+        .card-popup { 
+            position: absolute; bottom: 30%; left: 5%; width: 90%; 
+            background: #fff; border-radius: 8px; border: 1px solid #eee; padding: 10px; 
+            text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 10; 
+            opacity: 0; transform: translateY(20px) scale(0.95); pointer-events: none; 
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            /* PERFORMANCE: Hint to browser for smooth open animation */
+            will-change: transform, opacity;
+        }
+        .card-popup svg { width: 40%; height: auto; margin-bottom: 5px; }
+        .card-popup p { font-size: 8px; color: #555; line-height: 1.4; }
+        
+        .envelope-container.is-open .envelope img { transform: translateY(-5px) scale(1.03); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .envelope-container.is-open .card-popup { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .envelope-container.is-open { position: relative; z-index: 100; }
+        
+        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 25px; }
+        .pagination span { width: 8px; height: 8px; border-radius: 50%; background-color: #E2E0E8; transition: background-color 0.3s ease; }
+        .pagination span.active { background-color: #B0AEC2; }
+
+        .message-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .message-modal-overlay.is-visible { opacity: 1; pointer-events: auto; }
+        .message-modal-content { 
+            background: #fff; border-radius: 20px; 
+            padding: 40px 35px; width: 90%; max-width: 340px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15); text-align: center; position: relative; 
+            transform: scale(0.95); transition: transform 0.4s ease;
+            /* PERFORMANCE: Hint to browser for smooth modal animation */
+            will-change: transform;
+        }
+        .message-modal-overlay.is-visible .message-modal-content { transform: scale(1); }
+        .modal-heading { font-size: 1.2rem; font-weight: 800; color: var(--text-primary); margin-bottom: 30px; }
+        .modal-body { font-size: 1rem; font-weight: 700; line-height: 2.2; color: var(--text-primary); text-align: left; margin-bottom: 40px; }
+        .modal-button { display: inline-block; background: linear-gradient(to right, var(--button-grad-start), var(--button-grad-end)); color: #fff; padding: 14px 30px; border: none; border-radius: 999px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 100, 100, 0.3); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .modal-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 100, 100, 0.4); }
+        .modal-icon { position: absolute; }
+        .icon-sparkle-tl { top: 25px; left: 25px; }
+        .icon-sparkle-tr { top: 25px; right: 25px; }
+        .icon-sparkle-bl { bottom: 95px; left: 40px; }
+        
+        .icon-rabbit-heart { position: absolute; bottom: 95px; right: 40px; width: 28px; height: auto; }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="peeking-anya"><img src="/images/anya.png" alt="Anya peeking"></div>
+        <div class="browser-window">
+            <header class="browser-chrome">
+                <div class="traffic-lights"><span></span><span></span></div>
+                <div class="chrome-nav-icons"><div class="icon icon-refresh"></div><div class="icon icon-home"></div></div>
+                <div class="address-bar-container"><div class="star-icon-wrapper"><div class="icon icon-star"></div></div></div>
+                <div class="chrome-menu-icons"><div class="icon icon-square-in-square"></div><div class="icon icon-menu"></div></div>
+            </header>
+            <main class="browser-content">
+                <div class="content-wrapper">
+                    <h1 class="main-heading">Birthday Surprises!</h1>
+                    <p class="sub-heading">Each envelope holds a special surprise!</p>
+                    <div class="envelope-slider-container">
+                        <div class="envelope-slider-wrapper"></div>
+                    </div>
+                    <div class="pagination"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="message-modal-overlay">
+        <div class="message-modal-content">
+            <div class="modal-icon icon-sparkle-tl"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 0L7.86887 6.13113L14 7L7.86887 7.86887L7 14L6.13113 7.86887L0 7L6.13113 6.13113L7 0Z" stroke="#C4C4C4" stroke-width="1.5"/></svg></div>
+            <div class="modal-icon icon-sparkle-tr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0L9.14286 6.85714L16 8L9.14286 9.14286L8 16L6.85714 9.14286L0 8L6.85714 6.85714L8 0Z" fill="#FFC4C4"/></svg></div>
+            <div class="modal-icon icon-sparkle-bl"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 0L6.72372 5.27628L12 6L6.72372 6.72372L6 12L5.27628 6.72372L0 6L5.27628 5.27628L6 0Z" fill="#FFD1D1"/></svg></div>
+            <h2 class="modal-heading">A message from your future self!</h2>
+            <p class="modal-body">Dearest [Recipient's Name,<br>Don't worry about tomorrow. You are doing and amazing things you coming of way. Remember to breathe and enjoy the little morony to enit little moments. Keep shining!<br>Future You</p>
+            <!-- FIXED: The rabbitheart.png icon is now correctly implemented -->
+            <img src="/images/rabbitheart.png" alt="Heart Icon" class="icon-rabbit-heart">
+            <button class="modal-button">Claim Next Surprise!</button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * EnvelopeSlider Class
+         * Encapsulates all functionality for the swipeable envelope pages
+         * and their interactions, written for performance and clarity.
+         */
+        class EnvelopeSlider {
+            // --- Configuration ---
+            TOTAL_ENVELOPES = 32;
+            ENVELOPES_PER_PAGE = 15;
+
+            constructor() {
+                // --- Cache DOM elements for performance ---
+                this.sliderContainer = document.querySelector('.envelope-slider-container');
+                this.sliderWrapper = document.querySelector('.envelope-slider-wrapper');
+                this.paginationContainer = document.querySelector('.pagination');
+                this.modalOverlay = document.querySelector('.message-modal-overlay');
+                this.closeModalButton = document.querySelector('.modal-button');
+
+                // --- State variables ---
+                this.currentPage = 0;
+                this.totalPages = 0;
+                this.isDragging = false;
+                this.startPos = 0;
+                this.currentTranslate = 0;
+                this.prevTranslate = 0;
+                this.animationID = 0;
+            }
+
+            init() {
+                this._generatePages();
+                this._setupEventListeners();
+            }
+
+            // --- Private "Helper" Methods ---
+
+            _generatePages() {
+                this.totalPages = Math.ceil(this.TOTAL_ENVELOPES / this.ENVELOPES_PER_PAGE);
+                let envelopeCounter = 0;
+
+                for (let i = 0; i < this.totalPages; i++) {
+                    const page = this._createDOMElement('div', 'envelope-page');
+                    const grid = this._createDOMElement('div', 'envelope-grid');
+                    const envelopesOnThisPage = Math.min(this.ENVELOPES_PER_PAGE, this.TOTAL_ENVELOPES - envelopeCounter);
+
+                    for (let j = 0; j < envelopesOnThisPage; j++) {
+                        // This logic creates the alternating color pattern
+                        const isPink = (envelopeCounter % 3 === 0 && envelopeCounter % 2 !== 0) || (envelopeCounter % 3 !== 0 && envelopeCounter % 2 === 0);
+                        const color = isPink ? 'pink' : 'green';
+                        grid.insertAdjacentHTML('beforeend', this._getEnvelopeHTML(color));
+                        envelopeCounter++;
+                    }
+                    
+                    page.appendChild(grid);
+                    this.sliderWrapper.appendChild(page);
+                    this.paginationContainer.appendChild(this._createDOMElement('span', i === 0 ? 'active' : ''));
+                }
+            }
+            
+            _getEnvelopeHTML(color) {
+                return `
+                    <div class="envelope-container">
+                        <div class="envelope"><img src="/images/envelope_${color}.png" alt="${color} Envelope"></div>
+                        <div class="card-popup">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,15 C40,5 25,10 25,25 C25,40 50,55 50,55 C50,55 75,40 75,25 C75,10 60,5 50,15 Z" fill="none" stroke="#ccc" stroke-width="2"/><path d="M40,65 Q50,75 60,65 M45,75 Q50,85 55,75 M35,90 H65" fill="none" stroke="#ccc" stroke-width="2" stroke-linecap="round"/></svg>
+                            <p>Let me admire some awesome peom that you've so got</p>
+                        </div>
+                    </div>`;
+            }
+            
+            _createDOMElement(tag, className) {
+                const el = document.createElement(tag);
+                if (className) el.className = className;
+                return el;
+            }
+
+            _setupEventListeners() {
+                // --- Event Delegation for Performance ---
+                // One listener for all envelope clicks and card clicks
+                this.sliderWrapper.addEventListener('click', this._handleWrapperClick.bind(this));
+                
+                // Swipe Listeners
+                this.sliderContainer.addEventListener('mousedown', this._dragStart.bind(this));
+                this.sliderContainer.addEventListener('touchstart', this._dragStart.bind(this), { passive: true });
+                this.sliderContainer.addEventListener('mousemove', this._dragging.bind(this));
+                this.sliderContainer.addEventListener('touchmove', this._dragging.bind(this), { passive: true });
+                this.sliderContainer.addEventListener('mouseup', this._dragEnd.bind(this));
+                this.sliderContainer.addEventListener('touchend', this._dragEnd.bind(this));
+                this.sliderContainer.addEventListener('mouseleave', this._dragEnd.bind(this));
+
+                // Modal closing listeners
+                this.closeModalButton.addEventListener('click', () => this.modalOverlay.classList.remove('is-visible'));
+                this.modalOverlay.addEventListener('click', (e) => { if (e.target === this.modalOverlay) this.modalOverlay.classList.remove('is-visible'); });
+            }
+            
+            _handleWrapperClick(e) {
+                if (this.isDragging) return; // Prevent clicks during a swipe motion
+                
+                const cardPopup = e.target.closest('.card-popup');
+                const envelopeContainer = e.target.closest('.envelope-container');
+
+                if (cardPopup) {
+                    this.modalOverlay.classList.add('is-visible');
+                } else if (envelopeContainer) {
+                    const wasOpen = envelopeContainer.classList.contains('is-open');
+                    // Close all other envelopes first
+                    document.querySelectorAll('.envelope-container.is-open').forEach(c => c.classList.remove('is-open'));
+                    if (!wasOpen) {
+                        envelopeContainer.classList.add('is-open');
+                    }
+                }
+            }
+
+            // --- Swipe Logic Methods ---
+
+            _dragStart(e) {
+                this.isDragging = false; // Reset to false until a drag is confirmed
+                this.startPos = this._getPositionX(e);
+                this.animationID = requestAnimationFrame(this._animation.bind(this));
+                this.sliderWrapper.style.transition = 'none';
+            }
+
+            _dragging(e) {
+                if (this.startPos === 0) return;
+                const currentPosition = this._getPositionX(e);
+                this.currentTranslate = this.prevTranslate + currentPosition - this.startPos;
+                if (!this.isDragging && Math.abs(currentPosition - this.startPos) > 10) {
+                    this.isDragging = true; // Confirm drag after a small threshold
+                }
+            }
+
+            _dragEnd() {
+                cancelAnimationFrame(this.animationID);
+                if (!this.isDragging) {
+                    this.startPos = 0; // Reset startPos if it was just a click, not a drag
+                    return;
+                }
+                
+                const movedBy = this.currentTranslate - this.prevTranslate;
+                if (movedBy < -50 && this.currentPage < this.totalPages - 1) this.currentPage++;
+                if (movedBy > 50 && this.currentPage > 0) this.currentPage--;
+
+                this._goToPage(this.currentPage);
+                this.isDragging = false;
+                this.startPos = 0;
+            }
+
+            _goToPage(pageIndex) {
+                this.sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                const newTranslate = pageIndex * -this.sliderContainer.clientWidth;
+                this.sliderWrapper.style.transform = `translateX(${newTranslate}px)`;
+                this.prevTranslate = newTranslate;
+                this.currentTranslate = newTranslate;
+                this._updatePaginationDots();
+            }
+            
+            _animation() {
+                this.sliderWrapper.style.transform = `translateX(${this.currentTranslate}px)`;
+                if (this.startPos !== 0) { // Only continue animation if a drag is active
+                    requestAnimationFrame(this._animation.bind(this));
+                }
+            }
+
+            _getPositionX(e) {
+                return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            }
+            
+            _updatePaginationDots() {
+                this.paginationContainer.childNodes.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === this.currentPage);
+                });
+            }
+        }
+
+        // --- Initialize the application ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = new EnvelopeSlider();
+            app.init();
+        });
+
+    </script>
+</body>
+</html>
